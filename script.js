@@ -31,12 +31,27 @@ window.onload = function() {
     const board = document.querySelector("#board");
 
     let nb = 1;
+    var timer = 0; // En secondes pour commencer, voire pour affichage "00:00"
+    console.log(timer);
+
+   
     for(let i = 1; i <= 10; i++) {
         const newBox = box.cloneNode();
         newBox.innerText = i;
         board.appendChild(newBox);
 
         newBox.addEventListener("click", function() {
+            // start timer:
+            if (nb == 1) {
+                setInterval(function() {
+                    document.getElementById('timer').innerText = timer + " secondes";
+                    timer++;
+                    console.log(timer);
+                    
+                }, 1000);
+            }
+
+
             if (i == nb) {
                 newBox.classList.add("box-valid");
                 if (nb == board.children.length) {
