@@ -23,6 +23,26 @@ window.onload = function() {
             }, 800);
         }
     }
+
+    window.localStorage.setItem("1", 0);
+    window.localStorage.setItem("2", 0);
+    window.localStorage.setItem("3", 0);
+    function highScores(actualTimer) {
+        // comparaison et ecrasement
+        if (actualTimer < window.localStorage.getItem("1")) {
+            window.localStorage.setItem("1", timer);
+            document.getElementById("top1").innerText = window.localStorage.getItem("1");
+        }
+        else if (actualTimer < window.localStorage.getItem("2")) {
+            window.localStorage.setItem("2", timer);
+            document.getElementById("top2").innerText = window.localStorage.getItem("2");
+        }
+        else if (actualTimer < window.localStorage.getItem("3")) {
+            window.localStorage.setItem("3", timer);
+            document.getElementById("top3").innerText = window.localStorage.getItem("3");
+        }
+
+    }
     
 
     const box = document.createElement('div');
@@ -33,17 +53,19 @@ window.onload = function() {
     let nb = 1;
     var timer = 0; // En secondes pour commencer, voire pour affichage "00:00"
     timerState = true;
+    functionState = false;
+
    
     for(let i = 1; i <= 10; i++) {
         const newBox = box.cloneNode();
         newBox.innerText = i;
         board.appendChild(newBox);
+        
 
         newBox.addEventListener("click", function() {
             // start timer (fonction récursive pour avoir acces à la var State dynamiquement):
             if (nb == 1) {
                 timerState = true;
-                functionState = false;
 
                 function ongoing() {
                     functionState = true;
@@ -68,9 +90,20 @@ window.onload = function() {
                     board.querySelectorAll(".box").forEach(function(box) {
                         showReaction("success", box);
                     });
+                    // Reinitialisation jeu 3s apres Win
+                    setTimeout(function() {
+                        nb = 1;
+                        document.getElementById('timer').innerText = timer + " secondes";
+                        board.querySelectorAll(".box-valid").forEach(function(validBox) {
+                            validBox.classList.remove("box-valid");
+                            validBox.classList.remove("success");
+                        })
+        
+                    }, 3000);
+                    // Fin reinit
                     timerState = false;
+                    highScores(timer);
                     timer = 0;
-                    document.getElementById('timer').innerText = timer + " secondes";
                 }
                 nb++;
             }
