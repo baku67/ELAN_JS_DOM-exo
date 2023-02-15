@@ -1,0 +1,39 @@
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+#board {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.box {
+    width: 75px;
+    height: 75px;
+    border: 1px solid black;
+    background-color:rgba(212,250,76,0.1);
+    font-size:3em;
+    text-align: center;
+    line-height: 75px;
+    margin: 5px;
+    animation: appear 1s;
+    border-radius: 6px;
+}
+.box-clicked {
+    background-color: #ccc;
+    color:#aaa;
+}
+
+.box-valid {
+    background-color:rgba(212,250,76,1);
+}
+
+@keyframes appear {
+    from {
+        transform: scale(0) rotate(180deg);
+    }
+    to {
+        transform: scale(1) rotate(0deg);
+    }
+}
