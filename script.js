@@ -32,8 +32,7 @@ window.onload = function() {
 
     let nb = 1;
     var timer = 0; // En secondes pour commencer, voire pour affichage "00:00"
-    console.log(timer);
-
+    timerState = true;
    
     for(let i = 1; i <= 10; i++) {
         const newBox = box.cloneNode();
@@ -41,14 +40,25 @@ window.onload = function() {
         board.appendChild(newBox);
 
         newBox.addEventListener("click", function() {
-            // start timer:
+            // start timer (fonction récursive pour avoir acces à la var State dynamiquement):
             if (nb == 1) {
-                setInterval(function() {
-                    document.getElementById('timer').innerText = timer + " secondes";
-                    timer++;
-                    console.log(timer);
-                    
-                }, 1000);
+                timerState = true;
+                functionState = false;
+
+                function ongoing() {
+                    functionState = true;
+                    setTimeout(function() {
+                        if(timerState == true) {
+                            timer++;
+                            document.getElementById('timer').innerText = timer + " secondes";
+                        }
+                        ongoing();
+                    }, 1000);
+                }
+                // State pour éviter de dupliquer la fonction apres un resultat (pas de refresh page)
+                if (functionState == false) {
+                    ongoing();
+                }
             }
 
 
@@ -57,7 +67,10 @@ window.onload = function() {
                 if (nb == board.children.length) {
                     board.querySelectorAll(".box").forEach(function(box) {
                         showReaction("success", box);
-                    })
+                    });
+                    timerState = false;
+                    timer = 0;
+                    document.getElementById('timer').innerText = timer + " secondes";
                 }
                 nb++;
             }
@@ -67,6 +80,9 @@ window.onload = function() {
                 board.querySelectorAll(".box-valid").forEach(function(validBox) {
                     validBox.classList.remove("box-valid");
                 })
+                timerState = false;
+                timer = 0;
+                document.getElementById('timer').innerText = timer + " secondes";
             }
             else {
                 showReaction("notice", newBox);
