@@ -19,6 +19,9 @@ html, body {
     margin: 5px;
     animation: appear 1s;
     border-radius: 6px;
+
+    cursor: pointer;
+    transition: all 0.8s;
 }
 .box-clicked {
     background-color: #ccc;
@@ -27,6 +30,7 @@ html, body {
 
 .box-valid {
     background-color:rgba(212,250,76,1);
+    transform: scale(0.8);
 }
 
 @keyframes appear {
@@ -36,4 +40,19 @@ html, body {
     to {
         transform: scale(1) rotate(0deg);
     }
+}
+
+
+.box.error {
+    color: rgba(144,58,58,1);
+    background-color: rgba(255,160,190,1);
+}
+.box.success {
+    color: rgba(11,138,22,1);
+    background-color: rgba(172,251,172,1);
+}
+.box.notice {
+    color: rgba(18,16,151,1);
+    background-color: rgba(184,217,255,1);
+    cursor: not-allowed;
 }
