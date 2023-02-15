@@ -24,22 +24,61 @@ window.onload = function() {
         }
     }
 
-    window.localStorage.setItem("1", 0);
-    window.localStorage.setItem("2", 0);
-    window.localStorage.setItem("3", 0);
+    // Initialisation des High-score Lors refresh
+    if (window.localStorage.getItem("1") != 10000) {
+        document.getElementById("top1").innerText = window.localStorage.getItem("1");
+    }
+    if (window.localStorage.getItem("2") != 10000) {
+        document.getElementById("top2").innerText = window.localStorage.getItem("2");
+    }
+    if (window.localStorage.getItem("3") != 10000) {
+        document.getElementById("top3").innerText = window.localStorage.getItem("3");
+    }
+
     function highScores(actualTimer) {
+        if (window.localStorage.getItem("1") === null) {
+            window.localStorage.setItem("1", 10000);
+        }
+        if (window.localStorage.getItem("2") === null) {
+            window.localStorage.setItem("2", 10000);
+        }
+        if (window.localStorage.getItem("3") === null) {
+            window.localStorage.setItem("3", 10000);
+        }
+
         // comparaison et ecrasement
         if (actualTimer < window.localStorage.getItem("1")) {
+            // Ducoup l'ancienne valeur du Top1 passe Top2 etc.. (décalage)
+            window.localStorage.setItem("3", window.localStorage.getItem("2"));
+            if (window.localStorage.getItem("3") != 10000) {
+                document.getElementById("top3").innerText = window.localStorage.getItem("3");
+            }
+            window.localStorage.setItem("2", window.localStorage.getItem("1"));
+            if (window.localStorage.getItem("2") != 10000) {
+                document.getElementById("top2").innerText = window.localStorage.getItem("2");
+            }
+            
             window.localStorage.setItem("1", timer);
             document.getElementById("top1").innerText = window.localStorage.getItem("1");
         }
         else if (actualTimer < window.localStorage.getItem("2")) {
-            window.localStorage.setItem("2", timer);
-            document.getElementById("top2").innerText = window.localStorage.getItem("2");
+            // Décalage top2.value -> top3.value
+            if (window.localStorage.getItem("2") != 10000) {
+                window.localStorage.setItem("3", window.localStorage.getItem("2"));
+                if (window.localStorage.getItem("3") != 10000) {
+                    document.getElementById("top3").innerText = window.localStorage.getItem("3");
+                }
+    
+                window.localStorage.setItem("2", timer);
+                document.getElementById("top2").innerText = window.localStorage.getItem("2");
+            }
         }
         else if (actualTimer < window.localStorage.getItem("3")) {
-            window.localStorage.setItem("3", timer);
-            document.getElementById("top3").innerText = window.localStorage.getItem("3");
+            // Pas de décalage
+            if (window.localStorage.getItem("3") != 10000) {
+                window.localStorage.setItem("3", timer);
+                document.getElementById("top3").innerText = window.localStorage.getItem("3");
+            }
         }
 
     }
