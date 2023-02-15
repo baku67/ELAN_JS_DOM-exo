@@ -26,13 +26,13 @@ window.onload = function() {
 
     // Initialisation des High-score Lors refresh
     if (window.localStorage.getItem("1") != 10000) {
-        document.getElementById("top1").innerText = window.localStorage.getItem("1");
+        document.getElementById("top1").innerText = "Top1: " + window.localStorage.getItem("1") + "s";
     }
     if (window.localStorage.getItem("2") != 10000) {
-        document.getElementById("top2").innerText = window.localStorage.getItem("2");
+        document.getElementById("top2").innerText = "Top2: " + window.localStorage.getItem("2") + "s";
     }
     if (window.localStorage.getItem("3") != 10000) {
-        document.getElementById("top3").innerText = window.localStorage.getItem("3");
+        document.getElementById("top3").innerText = "Top3: " + window.localStorage.getItem("3") + "s";
     }
 
     function highScores(actualTimer) {
@@ -51,33 +51,33 @@ window.onload = function() {
             // Ducoup l'ancienne valeur du Top1 passe Top2 etc.. (décalage)
             window.localStorage.setItem("3", window.localStorage.getItem("2"));
             if (window.localStorage.getItem("3") != 10000) {
-                document.getElementById("top3").innerText = window.localStorage.getItem("3");
+                document.getElementById("top3").innerText = "Top3: " + window.localStorage.getItem("3") + "s";
             }
             window.localStorage.setItem("2", window.localStorage.getItem("1"));
             if (window.localStorage.getItem("2") != 10000) {
-                document.getElementById("top2").innerText = window.localStorage.getItem("2");
+                document.getElementById("top2").innerText = "Top2: " + window.localStorage.getItem("2") + "s";
             }
             
             window.localStorage.setItem("1", timer);
-            document.getElementById("top1").innerText = window.localStorage.getItem("1");
+            document.getElementById("top1").innerText = "Top1: " + window.localStorage.getItem("1") + "s";
         }
         else if (actualTimer < window.localStorage.getItem("2")) {
             // Décalage top2.value -> top3.value
             if (window.localStorage.getItem("2") != 10000) {
                 window.localStorage.setItem("3", window.localStorage.getItem("2"));
                 if (window.localStorage.getItem("3") != 10000) {
-                    document.getElementById("top3").innerText = window.localStorage.getItem("3");
+                    document.getElementById("top3").innerText = "Top3: " + window.localStorage.getItem("3") + "s";
                 }
     
                 window.localStorage.setItem("2", timer);
-                document.getElementById("top2").innerText = window.localStorage.getItem("2");
+                document.getElementById("top2").innerText = "Top2: " + window.localStorage.getItem("2") + "s";
             }
         }
         else if (actualTimer < window.localStorage.getItem("3")) {
             // Pas de décalage
             if (window.localStorage.getItem("3") != 10000) {
                 window.localStorage.setItem("3", timer);
-                document.getElementById("top3").innerText = window.localStorage.getItem("3");
+                document.getElementById("top3").innerText = "Top3: " + window.localStorage.getItem("3") + "s";
             }
         }
 
