@@ -1,5 +1,10 @@
 window.onload = function() {
 
+    $inputNbrOfTile = prompt("Veuillez entrer le nombre de cases (>=10)");
+    while ($inputNbrOfTile < 10) {
+        $inputNbrOfTile = prompt("Le nombre entré doit être supérieur ou égal à 10");
+    }
+
     // Coquille Ici:
     function shuffleChidren(parent) {
         let children = parent.children;
@@ -95,7 +100,7 @@ window.onload = function() {
     functionState = false;
 
    
-    for(let i = 1; i <= 10; i++) {
+    for(let i = 1; i <= $inputNbrOfTile; i++) {
         const newBox = box.cloneNode();
         newBox.innerText = i;
         board.appendChild(newBox);
