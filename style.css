@@ -1,11 +1,18 @@
 html, body {
     width: 100%;
     height: 100%;
+    font-family: math;
 }
 
 #board {
     display: flex;
     flex-wrap: wrap;
+
+    width:262px; height:fit-content; margin:0 auto; padding:10px; border:1px solid black; border-radius:5px; margin-top:50px;
+}
+#underBoard {
+    width:262px; height:fit-content; margin:0 auto; padding:10px; border:1px solid black; border-radius:5px; margin-top:50px;
+
 }
 
 .box {
@@ -35,10 +42,10 @@ html, body {
 
 @keyframes appear {
     from {
-        transform: scale(0) rotate(180deg);
+        transform: scale(0) rotateY(180deg);
     }
     to {
-        transform: scale(1) rotate(0deg);
+        transform: scale(1) rotateY(0deg);
     }
 }
 
@@ -55,4 +62,51 @@ html, body {
     color: rgba(18,16,151,1);
     background-color: rgba(184,217,255,1);
     cursor: not-allowed;
+}
+
+
+.no-shuffle {
+    animation-duration: 250ms;
+}
+
+
+
+#shuffleButton {
+    padding: 5px 10px;
+    margin: 15px;
+    border-radius: 3px;
+    border: 0px solid black;
+    position: relative;
+
+}
+.shuffleActiv {
+    background-color: aqua;
+    border-top: 0px solid rgb(47, 61, 63) !important;
+    margin-bottom: 3px;
+    top: 3px;
+}
+.shuffleNotActiv {
+    border-bottom: 3px solid rgb(47, 61, 63) !important;
+    border-right: 1px solid rgb(47, 61, 63) !important;
+    border-left: 1px solid rgb(47, 61, 63) !important;
+
+    background-color: aquamarine;
+}
+
+
+#hourGlassImg {
+    width:30px; 
+    height:30px;
+}
+.hourGlassAnim {
+    animation: hourglassAnim 1s 0s infinite ease-in-out;
+    transform: rotate(0deg);
+}
+@keyframes hourglassAnim {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(180deg);
+    }
 }

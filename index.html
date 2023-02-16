@@ -8,15 +8,18 @@
         <link type="text/css" href="style.css" rel="stylesheet">
     </head>
 
-    <body style="width:262px; height:fit-content; margin:0 auto; padding:10px; border:1px solid black; border-radius:5px; margin-top:50px;">
+    <body>
         <div id="board"></div>
-        <div id="timer">0 seconde</div>
-        <br><br>
-        <ul id="highScoresDiv">
-            <li id="highScoreTitle"><h3>High-scores:</h3></li>
-            <li id="top1">--:--</li>
-            <li id="top2">--:--</li>
-            <li id="top3">--:--</li>
-        </ul>
+        <div id="underBoard">
+            <div style="display:inline-flex; line-height:2em;"><span>Timer: &nbsp;</span><span id="timer">0 seconde</span><img id="hourGlassImg" src="hourglass.png"></div>
+            <button id="shuffleButton">Mode Shuffle</button>
+            <br><br>
+            <ul id="highScoresDiv">
+                <li id="highScoreTitle"><h3>High-scores:</h3></li>
+                <li id="top1">--:--</li>
+                <li id="top2">--:--</li>
+                <li id="top3">--:--</li>
+            </ul>
+        </div>
     </body>
 </html>

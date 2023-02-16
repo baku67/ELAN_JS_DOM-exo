@@ -5,6 +5,28 @@ window.onload = function() {
         $inputNbrOfTile = prompt("Le nombre entré doit être >= à 10 et <= 50");
     }
 
+    var modeShuffle = false;
+    if (modeShuffle) {
+        document.getElementById("shuffleButton").classList.remove("shuffleNotActiv");
+        document.getElementById("shuffleButton").classList.add("shuffleActiv");
+    }
+    else {
+        document.getElementById("shuffleButton").classList.remove("shuffleActiv");
+        document.getElementById("shuffleButton").classList.add("shuffleNotActiv");
+    } 
+    document.getElementById("shuffleButton").addEventListener("click", function() {
+        modeShuffle = !modeShuffle;
+        if (modeShuffle) {
+            document.getElementById("shuffleButton").classList.remove("shuffleNotActiv");
+            document.getElementById("shuffleButton").classList.add("shuffleActiv");
+        }
+        else {
+            document.getElementById("shuffleButton").classList.remove("shuffleActiv");
+            document.getElementById("shuffleButton").classList.add("shuffleNotActiv");
+        } 
+    })
+
+
     // Coquille Ici:
     function shuffleChidren(parent) {
         let children = parent.children;
@@ -18,6 +40,7 @@ window.onload = function() {
             parent.appendChild(temp);
         }
     }
+
 
     // Retour visuel de la vérification (au lieu des alert)
     function showReaction(type, clickedBox) {
@@ -109,6 +132,7 @@ window.onload = function() {
             newBox.addEventListener("click", function() {
                 // start timer (fonction récursive pour avoir acces à la var State dynamiquement):
                 if (nb == 1) {
+                    document.getElementById("hourGlassImg").classList.add("hourGlassAnim");
                     timerState = true;
     
                     function ongoing() {
@@ -130,6 +154,14 @@ window.onload = function() {
     
                 if (i == nb) {
                     newBox.classList.add("box-valid");
+                    // mélange inGame ici 
+                    if (modeShuffle == true) {
+                        board.querySelectorAll(".box").forEach(function(elem) {
+                            elem.classList.add("no-shuffle");
+                        })
+                        shuffleChidren(board);
+                    }
+
                     if (nb == board.children.length) {
                         board.querySelectorAll(".box").forEach(function(box) {
                             showReaction("success", box);
@@ -141,9 +173,11 @@ window.onload = function() {
                             board.querySelectorAll(".box-valid").forEach(function(validBox) {
                                 validBox.classList.remove("box-valid");
                                 validBox.classList.remove("success");
+                                shuffleChidren(board);
                             })
             
                         }, 2000);
+                        document.getElementById("hourGlassImg").classList.remove("hourGlassAnim");
                         // Fin reinit
                         timerState = false;
                         highScores(timer);
@@ -160,6 +194,8 @@ window.onload = function() {
                     timerState = false;
                     timer = 0;
                     document.getElementById('timer').innerText = timer + " secondes";
+                    document.getElementById("hourGlassImg").classList.remove("hourGlassAnim");
+
 
                     // Mélange des cases apres Faute
                     setTimeout(function() {
