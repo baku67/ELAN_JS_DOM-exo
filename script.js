@@ -1,8 +1,8 @@
 window.onload = function() {
 
     $inputNbrOfTile = prompt("Veuillez entrer le nombre de cases (>=10)");
-    while ($inputNbrOfTile < 10) {
-        $inputNbrOfTile = prompt("Le nombre entré doit être supérieur ou égal à 10");
+    while (($inputNbrOfTile < 10) || ($inputNbrOfTile > 50)) {
+        $inputNbrOfTile = prompt("Le nombre entré doit être >= à 10 et <= 50");
     }
 
     // Coquille Ici:
@@ -99,73 +99,88 @@ window.onload = function() {
     timerState = true;
     functionState = false;
 
-   
-    for(let i = 1; i <= $inputNbrOfTile; i++) {
-        const newBox = box.cloneNode();
-        newBox.innerText = i;
-        board.appendChild(newBox);
-        
-
-        newBox.addEventListener("click", function() {
-            // start timer (fonction récursive pour avoir acces à la var State dynamiquement):
-            if (nb == 1) {
-                timerState = true;
-
-                function ongoing() {
-                    functionState = true;
-                    setTimeout(function() {
-                        if(timerState == true) {
-                            timer++;
-                            document.getElementById('timer').innerText = timer + " secondes";
-                        }
+    function reload() {
+        for(let i = 1; i <= $inputNbrOfTile; i++) {
+            const newBox = box.cloneNode();
+            newBox.innerText = i;
+            board.appendChild(newBox);
+            
+    
+            newBox.addEventListener("click", function() {
+                // start timer (fonction récursive pour avoir acces à la var State dynamiquement):
+                if (nb == 1) {
+                    timerState = true;
+    
+                    function ongoing() {
+                        functionState = true;
+                        setTimeout(function() {
+                            if(timerState == true) {
+                                timer++;
+                                document.getElementById('timer').innerText = timer + " secondes";
+                            }
+                            ongoing();
+                        }, 1000);
+                    }
+                    // State pour éviter de dupliquer la fonction apres un resultat (pas de refresh page)
+                    if (functionState == false) {
                         ongoing();
-                    }, 1000);
+                    }
                 }
-                // State pour éviter de dupliquer la fonction apres un resultat (pas de refresh page)
-                if (functionState == false) {
-                    ongoing();
+    
+    
+                if (i == nb) {
+                    newBox.classList.add("box-valid");
+                    if (nb == board.children.length) {
+                        board.querySelectorAll(".box").forEach(function(box) {
+                            showReaction("success", box);
+                        });
+                        // Reinitialisation jeu 3s apres Win
+                        setTimeout(function() {
+                            nb = 1;
+                            document.getElementById('timer').innerText = timer + " secondes";
+                            board.querySelectorAll(".box-valid").forEach(function(validBox) {
+                                validBox.classList.remove("box-valid");
+                                validBox.classList.remove("success");
+                            })
+            
+                        }, 2000);
+                        // Fin reinit
+                        timerState = false;
+                        highScores(timer);
+                        timer = 0;
+                    }
+                    nb++;
                 }
-            }
-
-
-            if (i == nb) {
-                newBox.classList.add("box-valid");
-                if (nb == board.children.length) {
-                    board.querySelectorAll(".box").forEach(function(box) {
-                        showReaction("success", box);
-                    });
-                    // Reinitialisation jeu 3s apres Win
-                    setTimeout(function() {
-                        nb = 1;
-                        document.getElementById('timer').innerText = timer + " secondes";
-                        board.querySelectorAll(".box-valid").forEach(function(validBox) {
-                            validBox.classList.remove("box-valid");
-                            validBox.classList.remove("success");
-                        })
-        
-                    }, 3000);
-                    // Fin reinit
+                else if(i > nb) {
+                    showReaction("error", newBox);
+                    nb = 1;
+                    board.querySelectorAll(".box-valid").forEach(function(validBox) {
+                        validBox.classList.remove("box-valid");
+                    })
                     timerState = false;
-                    highScores(timer);
                     timer = 0;
+                    document.getElementById('timer').innerText = timer + " secondes";
+
+                    // Mélange des cases apres Faute
+                    setTimeout(function() {
+                        board.querySelectorAll(".box").forEach(function(elem) {
+                            elem.remove();
+                        });
+                        reload();
+                    }, 2000)
                 }
-                nb++;
-            }
-            else if(i > nb) {
-                showReaction("error", newBox);
-                nb = 1;
-                board.querySelectorAll(".box-valid").forEach(function(validBox) {
-                    validBox.classList.remove("box-valid");
-                })
-                timerState = false;
-                timer = 0;
-                document.getElementById('timer').innerText = timer + " secondes";
-            }
-            else {
-                showReaction("notice", newBox);
-            }
-        })
+                else {
+                    showReaction("notice", newBox);
+                }
+            })
+        }
     }
+
+    reload();
+
+
+
+
 
     shuffleChidren(board);
 
